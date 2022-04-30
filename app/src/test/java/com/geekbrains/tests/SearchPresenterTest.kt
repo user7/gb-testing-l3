@@ -26,9 +26,7 @@ class SearchPresenterTest {
 
     @Before
     fun setUp() {
-        //Обязательно для аннотаций "@Mock"
-        //Раньше было @RunWith(MockitoJUnitRunner.class) в аннотации к самому классу (SearchPresenterTest)
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         //Создаем Презентер, используя моки Репозитория и Вью, проинициализированные строкой выше
         presenter = SearchPresenter(viewContract, repository)
     }

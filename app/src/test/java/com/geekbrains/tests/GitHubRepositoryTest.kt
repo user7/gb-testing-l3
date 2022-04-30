@@ -22,7 +22,7 @@ class GitHubRepositoryTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         repository = GitHubRepository(gitHubApi)
     }
 
