@@ -4,8 +4,6 @@ import com.geekbrains.tests.model.SearchResponse
 import com.geekbrains.tests.repository.GitHubApi
 import com.geekbrains.tests.repository.GitHubRepository
 import com.geekbrains.tests.repository.GitHubRepository.GitHubRepositoryCallback
-import okhttp3.Request
-import okio.Timeout
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -44,38 +42,11 @@ class GitHubRepositoryTest {
         val response = mock(Response::class.java) as Response<SearchResponse?>
         val gitHubRepositoryCallBack = mock(GitHubRepositoryCallback::class.java)
 
-        val call = object : Call<SearchResponse?> {
-            override fun enqueue(callback: Callback<SearchResponse?>) {
-                callback.onResponse(this, response)
-                callback.onFailure(this, Throwable())
-            }
-
-            override fun clone(): Call<SearchResponse?> {
-                TODO("Not yet implemented")
-            }
-
-            override fun execute(): Response<SearchResponse?> {
-                TODO("Not yet implemented")
-            }
-
-            override fun isExecuted(): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun cancel() {
-            }
-
-            override fun isCanceled(): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun request(): Request {
-                TODO("Not yet implemented")
-            }
-
-            override fun timeout(): Timeout {
-                TODO("Not yet implemented")
-            }
+        val call = mock(Call::class.java) as Call<SearchResponse?>
+        `when`(call.enqueue(any())).then {
+            val callback = it.getArgument<Callback<SearchResponse?>>(0)
+            callback.onResponse(call, response)
+            callback.onFailure(call, Throwable())
         }
 
         `when`(gitHubApi.searchGithub(searchQuery)).thenReturn(call)
