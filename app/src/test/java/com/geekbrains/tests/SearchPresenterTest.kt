@@ -5,6 +5,7 @@ import com.geekbrains.tests.model.SearchResult
 import com.geekbrains.tests.presenter.search.SearchPresenter
 import com.geekbrains.tests.repository.GitHubRepository
 import com.geekbrains.tests.view.search.ViewSearchContract
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -28,7 +29,13 @@ class SearchPresenterTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         //Создаем Презентер, используя моки Репозитория и Вью, проинициализированные строкой выше
-        presenter = SearchPresenter(viewContract, repository)
+        presenter = SearchPresenter(repository)
+        presenter.onAttach(viewContract)
+    }
+
+    @After
+    fun cleanup() {
+        presenter.onDetach()
     }
 
     @Test //Проверим вызов метода searchGitHub() у нашего Репозитория
